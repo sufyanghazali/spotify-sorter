@@ -41,7 +41,7 @@ app.get('/login', (req, res) =>
     const state = generateRandomString(16);
     res.cookie(stateKey, state);
 
-    const scope = "user-read-private user-read-email";
+    const scope = "playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative";
     res.redirect("https://accounts.spotify.com/authorize?" +
         querystring.stringify({
             response_type: "code",
@@ -55,11 +55,7 @@ app.get('/login', (req, res) =>
 app.get("/callback", (req, res) =>
 {
     const { code, state } = req.query || null;
-
-    console.log(req.query);
     const storedState = req.cookies ? req.cookies[stateKey] : null;
-    console.log(state);
-    console.log(storedState);
 
     if (state === null || state !== storedState)
     {
@@ -89,7 +85,7 @@ app.get("/callback", (req, res) =>
                 const { access_token, refresh_token } = body;
 
                 const options = {
-                    url: "https://api.spotify.com/v1/me",
+                    url: "https://api.spotify.com/v1/me/playlists",
                     headers: {
                         "Authorization": "Bearer " + access_token
                     },
@@ -101,7 +97,14 @@ app.get("/callback", (req, res) =>
                     console.log(body);
                 });
 
-                request.get("https://api.spotify.com/v1/me/playlists")
+
+
+
+
+                // request.get(test, (error, response, body) =>
+                // {
+                //     console.log(body);
+                // })
 
                 // res.redirect("/#" +
                 //     querystring.stringify({
