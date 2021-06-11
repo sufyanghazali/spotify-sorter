@@ -8,11 +8,13 @@ const client_id = "de6e5a1511474a2096d334d729b359fd";
 const client_secret = "86b08537868f41179121f71ea0e19efc";
 const redirect_uri = "http://localhost:3000/callback";
 
-const generateRandomString = function (length) {
+const generateRandomString = function (length)
+{
     let str = "";
     const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++)
+    {
         str += possible.charAt(Math.floor(Math.random() * possible.length));
     }
 
@@ -29,11 +31,13 @@ app.use(cors())
     .use(express.urlencoded({ extended: true })); // parse url-encoded bodies. for req.body
 
 
-app.get("/", (req, res) => {
+app.get("/", (req, res) =>
+{
     res.send("Hello");
 })
 
-app.get('/login', (req, res) => {
+app.get('/login', (req, res) =>
+{
     const state = generateRandomString(16);
     res.cookie(stateKey, state);
 
@@ -48,7 +52,8 @@ app.get('/login', (req, res) => {
         }));
 });
 
-app.get("/callback", (req, res) => {
+app.get("/callback", (req, res) =>
+{
     const { code, state } = req.query || null;
 
     console.log(req.query);
@@ -56,11 +61,13 @@ app.get("/callback", (req, res) => {
     console.log(state);
     console.log(storedState);
 
-    if (state === null || state !== storedState) {
+    if (state === null || state !== storedState)
+    {
         res.redirect("/#" + querystring.stringify({
             error: "state_mismatch"
         }));
-    } else {
+    } else
+    {
         res.clearCookie(stateKey);
         const authOptions = {
             url: "https://accounts.spotify.com/api/token",
@@ -70,13 +77,15 @@ app.get("/callback", (req, res) => {
                 grant_type: "authorization_code"
             },
             headers: {
-                "Authorization": "Basic " + (Buffer.from(`${ client_id }:${ client_secret }`).toString("base64"))
+                "Authorization": "Basic " + (Buffer.from(`${client_id}:${client_secret}`).toString("base64"))
             },
             json: true
         }
 
-        request.post(authOptions, (error, response, body) => {
-            if (!error && response.statusCode === 200) {
+        request.post(authOptions, (error, response, body) =>
+        {
+            if (!error && response.statusCode === 200)
+            {
                 const { access_token, refresh_token } = body;
 
                 const options = {
@@ -87,16 +96,20 @@ app.get("/callback", (req, res) => {
                     json: true
                 }
 
-                request.get(options, (error, response, body) => {
+                request.get(options, (error, response, body) =>
+                {
                     console.log(body);
                 });
 
-                res.redirect("/#" +
-                    querystring.stringify({
-                        access_token: access_token,
-                        refresh_token: refresh_token
-                    }));
-            } else {
+                request.get("https://api.spotify.com/v1/me/playlists")
+
+                // res.redirect("/#" +
+                //     querystring.stringify({
+                //         access_token: access_token,
+                //         refresh_token: refresh_token
+                //     }));
+            } else
+            {
                 res.redirect("/#" + querystring.stringify({
                     error: 'invalid_token'
                 }));
@@ -106,16 +119,20 @@ app.get("/callback", (req, res) => {
 });
 
 
-app.listen(port, () => {
-    console.log(`Server up. Listening on port ${ port }`);
+app.listen(port, () =>
+{
+    console.log(`Server up. Listening on port ${port}`);
 })
 
 
-function serialize(obj) {
+function serialize(obj)
+{
     let str = [];
-    for (param in obj) {
-        if (obj.hasOwnProperty(param)) {
-            str.push(`${ encodeURIComponent(param) }=${ encodeURIComponent(obj[param]) }`);
+    for (param in obj)
+    {
+        if (obj.hasOwnProperty(param))
+        {
+            str.push(`${encodeURIComponent(param)}=${encodeURIComponent(obj[param])}`);
         }
     }
     return str.join("&")
