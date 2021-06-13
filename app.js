@@ -23,16 +23,21 @@ app.use(cors())
     .use(express.urlencoded({ extended: true })); // parse url-encoded bodies. for req.body
 
 app.get("/", async (req, res) => {
-    // TODO: logged in conditional
 
+    // TODO: logged in conditional
     const { access_token } = req.cookies;
     const id = '639SNqLUL7f425tG6KF5M3';
     const playlists = await getUserPlaylists(access_token);
 
 
-    const playlist = await getPlaylist(id, access_token);
+    const tracks = await getPlaylistTracks(id, access_token); // 
 
-    console.log(playlist);
+    // tracks.items.track.album.release_date
+
+    for (item of tracks.items) {
+        console.log(item);
+    }
+
     res.render("home");
 });
 
