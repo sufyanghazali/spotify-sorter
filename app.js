@@ -30,14 +30,10 @@ app.get("/", async (req, res) => {
     const playlists = await getUserPlaylists(access_token);
 
 
-    const tracks = await getPlaylistTracks(id, access_token); // 
+    const tracks = await getPlaylistTracks(id, access_token)
+        .then(response => response.items.map(track => track)); //
 
-    // tracks.items.track.album.release_date
-
-    for (item of tracks.items) {
-        console.log(item);
-    }
-
+    console.log(tracks);
     res.render("home");
 });
 
@@ -78,7 +74,7 @@ app.get("/callback", async (req, res) => {
                 grant_type: "authorization_code"
             },
             headers: {
-                "Authorization": "Basic " + (Buffer.from(`${ client_id }:${ client_secret }`).toString("base64"))
+                "Authorization": "Basic " + (Buffer.from(`${client_id}:${client_secret}`).toString("base64"))
             }
         }).then(response => response.data);
 
@@ -93,7 +89,7 @@ app.get("/callback", async (req, res) => {
 
 
 app.listen(port, () => {
-    console.log(`Server up. Listening on port ${ port }`);
+    console.log(`Server up. Listening on port ${port}`);
 });
 
 
@@ -101,7 +97,7 @@ const serialize = function(obj) {
     let str = [];
     for (param in obj) {
         if (obj.hasOwnProperty(param)) {
-            str.push(`${ encodeURIComponent(param) }=${ encodeURIComponent(obj[param]) }`);
+            str.push(`${encodeURIComponent(param)}=${encodeURIComponent(obj[param])}`);
         }
     }
     return str.join("&")
@@ -134,7 +130,7 @@ const getUserPlaylists = async function(token) {
 
 const getPlaylistTracks = async function(id, token) {
     try {
-        const data = await axios.get(`https://api.spotify.com/v1/playlists/${ id }/tracks`, {
+        const data = await axios.get(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
             headers: {
                 "Authorization": "Bearer " + token
             }
@@ -144,4 +140,45 @@ const getPlaylistTracks = async function(id, token) {
     } catch (err) {
         console.error(err);
     }
+}
+
+const partition = function(arr, leftIdx, rightIdx, pivotIdx) {
+    let pivotVal, currIdx, newPivotIdx;
+
+    pivotVal = arr[pivotIdx];
+    arr[pivotIdx] = arr[rightIdx];
+    arr[rightIdx] = pivotVal;
+
+    currIdx = leftIdx;
+
+    for (let i = leftIdx; i < rightIdx; i++) {
+        if (arr[i] < pivotVal) {
+
+            // swaps elements
+            [arr[i], arr[currIdx]] = [arr[currIdx], arr[i]];
+            currIdx++;
+        }
+    }
+
+    newPivotIdx = currIdx;
+    arr[rightIdx] = arr[newPivotIdx];
+    arr[newPivotIdx] = pivotVal;
+    // [arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]]
+
+    return newPivotIdx;
+}
+
+const quickSortRecursive = (arr, leftIdx, rightIdx,) => {
+    if (rightIdx > leftIdx) {
+        let pivotIdx, newPivotIdx;
+        pivotIdx = Math.floor((leftIdx + rightIdx) / 2);
+        newPivotIdx = partition(arr, leftIdx, rightIdx, pivotIdx);
+
+        quickSortRecursive(arr, leftIdx, newPivotIdx - 1);
+        quickSortRecursive(arr, newPivotIdx + 1, rightIdx);
+    }
+}
+
+const quickSort = arr => {
+    quickSortRecursive(arr, 0, arr.length - 1);
 }
