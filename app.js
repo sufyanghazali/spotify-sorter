@@ -31,9 +31,21 @@ app.get("/", async (req, res) => {
 
 
     const tracks = await getPlaylistTracks(id, access_token)
-        .then(response => response.items.map(track => track)); //
+        .then(response => response.items.map(track => track));
+
+    // TODO: 
+    // sort tracks by release date 
+    // compare date strings from tracks[index].track.album.release_date 
+    // build uri string from sorted tracks array
+    // replace playlist using uri string as query parameter
+
+    console.log(compareTracks(tracks[0], tracks[1]));
+
+    quickSort(tracks);
 
     console.log(tracks);
+
+    // console.log(tracks[0].track.album.);
     res.render("home");
 });
 
@@ -152,7 +164,7 @@ const partition = function(arr, leftIdx, rightIdx, pivotIdx) {
     currIdx = leftIdx;
 
     for (let i = leftIdx; i < rightIdx; i++) {
-        if (arr[i] < pivotVal) {
+        if (compareTracks(arr[i], pivotVal)) {
 
             // swaps elements
             [arr[i], arr[currIdx]] = [arr[currIdx], arr[i]];
@@ -181,4 +193,12 @@ const quickSortRecursive = (arr, leftIdx, rightIdx,) => {
 
 const quickSort = arr => {
     quickSortRecursive(arr, 0, arr.length - 1);
+}
+
+const compareTracks = (a, b) => {
+    let dateA, dateB;
+    dateA = Date.parse(a.track.album.release_date);
+    dateB = Date.parse(b.track.album.release_date);
+
+    return dateA < dateB;
 }
