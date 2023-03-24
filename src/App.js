@@ -1,23 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+// const access_token = new 
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 className="login-header">Sortify</h1>
+      <a href="https://10v703cbx8.execute-api.ap-southeast-2.amazonaws.com/test/auth">
+        Login with Spotify
+      </a>
     </div>
   );
 }
