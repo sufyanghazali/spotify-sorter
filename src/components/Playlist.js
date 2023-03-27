@@ -1,5 +1,5 @@
 const Playlist = ({}) => {
-    return (
-        <div></div>
-    )
-}
+  return <div>Playlists</div>;
+};
+
+export default Playlist;

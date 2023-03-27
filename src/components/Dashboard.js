@@ -26,7 +26,7 @@ const Dashboard = ({ access_token }) => {
 
   return (
     <div className="dashboard">
-      <p>{access_token}</p>
+      {playlists ? <Playlists playlists={playlists} /> : <div>Loading</div>}
     </div>
   );
 };
