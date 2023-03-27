@@ -1,14 +1,15 @@
-// const access_token = new 
+import { useEffect, useState } from "react";
+import "../index.css";
 
-function App() {
+const Login = ({ access_token }) => {
   return (
-    <div className="App">
+    <div className="login">
       <h1 className="login-header">Sortify</h1>
       <a href="https://10v703cbx8.execute-api.ap-southeast-2.amazonaws.com/test/auth">
         Login with Spotify
       </a>
     </div>
   );
-}
+};
 
-export default App;
+export default Login;
