@@ -1,15 +1,10 @@
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 
-const access_token = new URLSearchParams(window.location.search).get(
-  "access_token"
-);
-
-console.log("hi");
+const params = new URLSearchParams(window.location.search);
+const { access_token, refresh_token } = params;
 
 function App() {
-console.log("hi");
-
   return (
     <div className="App">
       {access_token ? <Dashboard access_token={access_token} /> : <Login />}
