@@ -1,4 +1,4 @@
-const Playlist = ({}) => {
+const Playlist = ({playlists}) => {
   return <div>Playlists</div>;
 };
 

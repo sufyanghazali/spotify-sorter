@@ -6,6 +6,8 @@ import Playlists from "./Playlists";
 
 const Dashboard = ({ access_token }) => {
   const [playlists, setPlaylists] = useState([]);
+  const [showPlaylist, setShowPlaylist] = useState(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
   useEffect(() => {
     async function getUserPlaylists() {
@@ -20,13 +22,14 @@ const Dashboard = ({ access_token }) => {
     }
 
     getUserPlaylists();
-  });
+  }, [access_token]);
 
   console.log(playlists);
 
   return (
     <div className="dashboard">
       {playlists ? <Playlists playlists={playlists} /> : <div>Loading</div>}
+      
     </div>
   );
 };
