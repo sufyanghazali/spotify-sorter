@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../index.css";
 
-const Login = ({ access_token }) => {
+const Login = () => {
   return (
     <div className="login">
       <h1 className="login-header">Sortify</h1>
