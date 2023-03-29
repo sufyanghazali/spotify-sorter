@@ -123,7 +123,6 @@ const Dashboard = ({ access_token }) => {
         onPlaylistSelect={onPlaylistSelect}
         selectedPlaylist={selectedPlaylist}
       />
-
       <div className="w-full bg-neutral-900">
         <PlaylistInfo
           playlist={selectedPlaylist}
