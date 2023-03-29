@@ -12,7 +12,11 @@ const Playlists = ({ playlists, onPlaylistSelect, selectedPlaylist }) => {
     );
   });
 
-  return <div>{list}</div>;
+  return (
+    <div className="w-64 sticky top-0 h-screen px-4 pt-12 text-neutral-300">
+      {list}
+    </div>
+  );
 };
 
 export default Playlists;

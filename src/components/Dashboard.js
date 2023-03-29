@@ -4,13 +4,12 @@ import { compare } from "../utils/sort";
 
 import Playlist from "./Playlist";
 import Playlists from "./Playlists";
-import SortButton from "./SortButton";
-import SaveButton from "./SaveButton";
+import PlaylistInfo from "./PlaylistInfo";
 
 const Dashboard = ({ access_token }) => {
   const [playlists, setPlaylists] = useState([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-  const [songs, setSongs] = useState([]);
+  const [tracks, setTracks] = useState([]);
   const [isSorted, setIsSorted] = useState(false);
 
   useEffect(() => {
@@ -41,36 +40,36 @@ const Dashboard = ({ access_token }) => {
     };
 
     const response = await axios(config);
-    let songs = response.data.items;
+    let tracks = response.data.items;
 
-    // Keep requesting for songs from playlist until all of them are retrieved
-    while (songs.length < response.data.total) {
+    // Keep requesting for tracks from playlist until all of them are retrieved
+    while (tracks.length < response.data.total) {
       // Edit config to offset subsequent requests
       config.params = {
-        offset: songs.length,
+        offset: tracks.length,
       };
       let next = await axios(config).then((response) => response.data.items);
-      songs = [...songs, ...next];
+      tracks = [...tracks, ...next];
     }
 
-    console.log(songs);
+    console.log(tracks);
     setSelectedPlaylist(playlist);
-    setSongs(songs);
+    setTracks(tracks);
     setIsSorted(false);
   };
 
   const onSortButtonClicked = () => {
-    const currentSongs = songs.sort(compare).reverse();
+    const currentTracks = tracks.sort(compare).reverse();
 
-    console.log(songs);
+    console.log(tracks);
 
-    setSongs(currentSongs);
+    setTracks(currentTracks);
     setIsSorted(true);
   };
 
   const onSaveButtonClicked = async () => {
     if (isSorted) {
-      const uris = songs.map((song) => song.track.uri);
+      const uris = tracks.map((track) => track.track.uri);
 
       let config = {
         url: `https://api.spotify.com/v1/playlists/${selectedPlaylist.id}/tracks`,
@@ -119,21 +118,20 @@ const Dashboard = ({ access_token }) => {
 
   return (
     <>
-      <div className="w-64 sticky top-0 h-screen p-4 text-neutral-300">
-        <Playlists
-          playlists={playlists}
-          onPlaylistSelect={onPlaylistSelect}
-          selectedPlaylist={selectedPlaylist}
-        />
-      </div>
+      <Playlists
+        playlists={playlists}
+        onPlaylistSelect={onPlaylistSelect}
+        selectedPlaylist={selectedPlaylist}
+      />
+
       <div className="w-full bg-neutral-900">
-        <div className="">
-          <SortButton onClick={onSortButtonClicked} />
-          <SaveButton onClick={onSaveButtonClicked} sorted={!isSorted} />
-        </div>
-        <div className="p-8">
-          <Playlist songs={songs} />
-        </div>
+        <PlaylistInfo
+          playlist={selectedPlaylist}
+          onSortButtonClicked={onSortButtonClicked}
+          onSaveButtonClicked={onSaveButtonClicked}
+          isSorted={!isSorted}
+        />
+        <Playlist tracks={tracks} />
       </div>
     </>
   );

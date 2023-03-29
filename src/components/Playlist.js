@@ -1,11 +1,15 @@
-import Song from "./Song";
+import TrackItem from "./TrackItem";
 
-const Playlist = ({ songs }) => {
-  const listItems = songs.map((song) => {
-    return <Song song={song} key={song.track.id} />;
+const Playlist = ({ tracks }) => {
+  const listItems = tracks.map((track) => {
+    return <TrackItem track={track} key={track.track.id} />;
   });
 
-  return <ul>{listItems}</ul>;
+  return (
+    <div className="p-8">
+      <ul>{listItems}</ul>;
+    </div>
+  );
 };
 
 export default Playlist;
