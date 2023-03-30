@@ -7,8 +7,6 @@ const PlaylistInfo = ({
   onSaveButtonClicked,
   isSorted,
 }) => {
-  console.log(playlist);
-
   if (playlist)
     return (
       <>

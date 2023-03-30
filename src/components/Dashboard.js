@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { compare } from "../utils/sort";
+import { sortTracksByReleaseDate } from "../utils/sort";
 
 import Playlist from "./Playlist";
 import Playlists from "./Playlists";
@@ -59,7 +59,7 @@ const Dashboard = ({ access_token }) => {
   };
 
   const onSortButtonClicked = () => {
-    const currentTracks = tracks.sort(compare).reverse();
+    const currentTracks = sortTracksByReleaseDate(tracks);
 
     console.log(tracks);
 
