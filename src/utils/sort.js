@@ -15,13 +15,6 @@ function groupTracksByAlbum(tracks) {
     const albumId = track.track.album.id;
     albums[albumId] = [...(albums[albumId] || []), track];
     return albums;
-
-    // alternative code
-    // if (!albums[albumId]) {
-    //   albums[albumId] = [track];
-    // } else {
-    //   albums[albumId].push(track);
-    // }
   }, {});
 }
 
