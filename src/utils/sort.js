@@ -39,6 +39,9 @@ function sortAlbumsByReleaseDate(albums) {
 export function sortTracksByReleaseDate(tracks) {
   const albums = groupTracksByAlbum(tracks);
   const sortedAlbums = sortAlbumTracks(albums);
-  const sortedTracks = sortAlbumsByReleaseDate(sortedAlbums).flat();
-  return sortedTracks;
+  const sortedTracks = sortAlbumsByReleaseDate(sortedAlbums);
+  console.log(sortedTracks);
+  const flattened = sortedTracks.flat();
+  console.log(flattened);
+  return flattened;
 }

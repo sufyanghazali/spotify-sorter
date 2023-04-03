@@ -1,9 +1,10 @@
-const TrackItem = ({ track }) => {
+const TrackItem = ({ track, index }) => {
   const artistNames = track.track.artists.map((artist) => artist.name);
 
   return (
-    <div className="flex h-14 pl-4 text-neutral-300">
-      <div className="mr-4 w-10">
+    <div className="flex h-14 pl-4 gap-4 text-neutral-300">
+      <div className="">{index + 1}</div>
+      <div className="w-10">
         <img
           src={track.track.album.images[0].url}
           alt={track.track.album.name}

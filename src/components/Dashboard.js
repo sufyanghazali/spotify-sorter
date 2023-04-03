@@ -52,7 +52,6 @@ const Dashboard = ({ access_token }) => {
       tracks = [...tracks, ...next];
     }
 
-    console.log(tracks);
     setSelectedPlaylist(playlist);
     setTracks(tracks);
     setIsSorted(false);
@@ -60,8 +59,6 @@ const Dashboard = ({ access_token }) => {
 
   const onSortButtonClicked = () => {
     const currentTracks = sortTracksByReleaseDate(tracks);
-
-    console.log(tracks);
 
     setTracks(currentTracks);
     setIsSorted(true);
@@ -94,7 +91,7 @@ const Dashboard = ({ access_token }) => {
                 uris: uris.slice(counter, counter + 100),
               };
 
-              axios(config);
+              await axios(config);
               counter += 100;
             }
           }
