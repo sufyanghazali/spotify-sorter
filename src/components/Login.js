@@ -9,7 +9,7 @@ const Login = () => {
         <div>
           <a
             className="inline-block py-2 px-4 rounded-full bg-spotify text-xl"
-            href="https://10v703cbx8.execute-api.ap-southeast-2.amazonaws.com/test/auth"
+            href="https://bmjj7szod0.execute-api.ap-southeast-2.amazonaws.com/prod/auth"
           >
             Login with Spotify
           </a>
